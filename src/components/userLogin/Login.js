@@ -4,8 +4,25 @@ import facebook from '../../assets/images/facebook.svg';
 import google from '../../assets/images/google.svg';
 import linkedin from '../../assets/images/linkedin.svg';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import './login.scss';
+import { loginIntiate, registerIntiate } from '../../redux/actions/loginRegisterActions';
+import {useEffect} from 'react';
+import {Redirect} from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 export const Login = () => {
+    const state = useSelector(state => state.userReducer);
+    const history=useHistory();
+    useEffect(() => {
+        if(state.user!=null)
+        {
+            console.log("in use effect");
+            history.push("/dashboard");
+        }
+        
+    }, [state.user]);
+    const dispatch = useDispatch();
     const [login, setlogin] = useState(true);
     const [signUpForm, setsignUpForm] = useState({
         name: "",
@@ -167,10 +184,10 @@ export const Login = () => {
             </div>
     );
     function signUp() {
-        
+        dispatch(registerIntiate(signUpForm.email,signUpForm.password,signUpForm.name));
     }
 
     function signIn() {
-        
+        dispatch(loginIntiate(signInForm.email,signInForm.password));
     }
 }

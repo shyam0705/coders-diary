@@ -1,8 +1,13 @@
-import { auth, provider } from "../../firebase"
-import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_START, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS } from "./actionTypes"
-
+// import { auth, provider } from "../../firebase"
+import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_START, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS, SET_USER } from "./actionTypes"
+import { signOut,getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
 //for registration
+import { initializeApp } from "firebase/app";
 
+ import { firebaseConfig } from "../../firebase"; 
+  // Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
 const registerStart=()=>{
     return{
         type:REGISTER_START
@@ -25,16 +30,20 @@ const registerSuccess=(user)=>{
 export const registerIntiate=(email,password,displayName)=>{
     return function(dispatch){
         dispatch(registerStart());
-        auth.createUserWithPassword(email,password)
-            .then((user)=>{
-                user.updateProfile({
-                    displayName
-                })
-                dispatch(registerSuccess(user));
-            })
-            .catch((err)=>{
-                dispatch(registerFails(err.message));
-            })
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            dispatch(registerSuccess(user));
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            dispatch(registerFails(errorMessage));
+            // ..
+        });
     }
 }
 
@@ -61,15 +70,21 @@ const loginSuccess=(user)=>{
 //main intiator for login
 export const loginIntiate=(email,password)=>{
     return function(dispatch){
+        
         dispatch(loginStart());
-        auth.signInUserWithPassword(email,password)
-            .then((user)=>{
-               
-                dispatch(loginSuccess(user));
-            })
-            .catch((err)=>{
-                dispatch(loginFails(err.message));
-            })
+        
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed in 
+            const user = userCredential.user;
+            dispatch(loginSuccess(user));
+            // ...
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            dispatch(loginFails(errorMessage));
+        });
     }
 }
 
@@ -92,18 +107,18 @@ const googleLoginSuccess=(user)=>{
     }
 }
 
-export const googleLoginIntiate=()=>{
-    return function(dispatch){
-        dispatch(googleLoginStart());
-        auth.signInWithPopup(provider)
-            .then((user)=>{
-                dispatch(googleLoginSuccess(user));
-            })
-            .catch((err)=>{
-                dispatch(googleLoginFails(err.message));
-            })
-    }
-}
+// export const googleLoginIntiate=()=>{
+//     return function(dispatch){
+//         dispatch(googleLoginStart());
+//         auth.signInWithPopup(provider)
+//             .then((user)=>{
+//                 dispatch(googleLoginSuccess(user));
+//             })
+//             .catch((err)=>{
+//                 dispatch(googleLoginFails(err.message));
+//             })
+//     }
+// }
 
 //for logout
 
@@ -129,12 +144,19 @@ const logoutFailed=(err)=>{
 export const logoutIntiate=()=>{
     return function(dispatch){
         dispatch(logoutStart);
-        auth.signOut()
-            .then((resp)=>{
-                dispatch(logoutSuccess());
-            })
-            .catch((err)=>{
-                dispatch(logoutFailed(err.message));
-            })
+        signOut(auth).then(() => {
+            dispatch(logoutSuccess);
+            // dispatch(setUser(null));
+          }).catch((error) => {
+            dispatch(logoutFailed(error.message));
+          });
+          
+    }
+}
+
+export const setUser=(user)=>{
+    return{
+        type:SET_USER,
+        payload:user
     }
 }

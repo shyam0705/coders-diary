@@ -1,4 +1,4 @@
-import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_SUCCESS } from "../actions/actionTypes";
+import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_SUCCESS, SET_USER } from "../actions/actionTypes";
 
 const intialState={
     loading:false,
@@ -24,7 +24,9 @@ export const userReducer=(state=intialState,action)=>{
         case LOGOUT_SUCCESS:
             return {loading:false,user:null,leetcode:null,error:null}  
         case LOGIN_FAILED:
-            return {...state,error:action.payload}               
+            return {...state,error:action.payload}  
+        case SET_USER:
+            return {...state,user:action.payload}                 
         default:
             return state;
     }
