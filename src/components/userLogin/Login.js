@@ -6,11 +6,12 @@ import linkedin from '../../assets/images/linkedin.svg';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './login.scss';
-import { loginIntiate, registerIntiate } from '../../redux/actions/loginRegisterActions';
+import { googleLoginIntiate, loginIntiate, registerIntiate } from '../../redux/actions/loginRegisterActions';
 import {useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Loader from 'react-loader-spinner';
 export const Login = () => {
     const state = useSelector(state => state.userReducer);
     const history=useHistory();
@@ -34,6 +35,7 @@ export const Login = () => {
         password: ""
     })
     return (
+        state.loading?<Loader/>:
         <div className="login">
                 <div className={`login__colored-container ${login ? 'login__colored-container--left' : 'login__colored-container--right'}`}></div>
                 <div className={`login__welcome-back ${login ? 'login__welcome-back--active' : 'login__welcome-back--inactive'}`}>
@@ -60,9 +62,9 @@ export const Login = () => {
                 <div className={`login__create-container ${login ? 'login__create-container--active' : 'login__create-container--inactive'}`}>
                     Create Account
                     <div className="login__create-container__social-container">
-                        <img className="login__create-container__social-container--facebook-icon" src={facebook} alt="" />
-                        <img className="login__create-container__social-container--google-icon" src={google} alt="" />
-                        <img className="login__create-container__social-container--linkedin-icon" src={linkedin} alt="" />
+                       
+                        <img className="login__create-container__social-container--google-icon" src={google} alt="" onClick={handleGoogleLogin}/>
+                        
                     </div>
                     <span className="login__create-container--info-text">or use email for your registration</span>
                     <div className="login__create-container__form-container">
@@ -124,9 +126,7 @@ export const Login = () => {
                     </div>
                     <div className="login__login-container__main-container">
                         <div className="login__login-container__main-container__social-container">
-                            <img className="login__login-container__main-container__social-container--facebook-icon" src={facebook} alt="" />
-                            <img className="login__login-container__main-container__social-container--google-icon" src={google} alt="" />
-                            <img className="login__login-container__main-container__social-container--linkedin-icon" src={linkedin} alt="" />
+                            <img className="login__login-container__main-container__social-container--google-icon" src={google} alt="" onClick={handleGoogleLogin}/>
                         </div>
                         <span className="login__login-container__main-container--info-text">or use email for your login</span>
                         <div className="login__login-container__main-container__form-container">
@@ -189,5 +189,8 @@ export const Login = () => {
 
     function signIn() {
         dispatch(loginIntiate(signInForm.email,signInForm.password));
+    }
+    function handleGoogleLogin(){
+        dispatch(googleLoginIntiate());
     }
 }

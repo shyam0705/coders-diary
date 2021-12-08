@@ -1,6 +1,6 @@
 // import { auth, provider } from "../../firebase"
-import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_START, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS, SET_USER } from "./actionTypes"
-import { signOut,getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword } from "firebase/auth";
+import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_START, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS, SET_USER, SET_USER_DATA } from "./actionTypes"
+import { signOut,getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
 //for registration
 import { initializeApp } from "firebase/app";
 
@@ -8,6 +8,7 @@ import { initializeApp } from "firebase/app";
   // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const provider = new GoogleAuthProvider();
 const registerStart=()=>{
     return{
         type:REGISTER_START
@@ -107,18 +108,30 @@ const googleLoginSuccess=(user)=>{
     }
 }
 
-// export const googleLoginIntiate=()=>{
-//     return function(dispatch){
-//         dispatch(googleLoginStart());
-//         auth.signInWithPopup(provider)
-//             .then((user)=>{
-//                 dispatch(googleLoginSuccess(user));
-//             })
-//             .catch((err)=>{
-//                 dispatch(googleLoginFails(err.message));
-//             })
-//     }
-// }
+export const googleLoginIntiate=()=>{
+    return function(dispatch){
+        dispatch(googleLoginStart());
+        signInWithPopup(auth, provider)
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            dispatch(googleLoginSuccess(user));
+            // ...
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            dispatch(googleLoginFails(errorMessage));
+        });
+
+    }
+}
 
 //for logout
 
@@ -158,5 +171,12 @@ export const setUser=(user)=>{
     return{
         type:SET_USER,
         payload:user
+    }
+}
+
+export const setUserData=(userData)=>{
+    return{
+        type:SET_USER_DATA,
+        payload:userData
     }
 }

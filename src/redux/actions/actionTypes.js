@@ -19,3 +19,4 @@ export const LOGOUT_SUCCESS='LOGOUT_SUCCESS';
 export const LOGOUT_FAILED='LOGOUT_FAILED';
 
 export const SET_USER='SET_USER';
+export const SET_USER_DATA='SET_USER_DATA';
