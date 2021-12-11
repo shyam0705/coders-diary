@@ -20,3 +20,5 @@ export const LOGOUT_FAILED='LOGOUT_FAILED';
 
 export const SET_USER='SET_USER';
 export const SET_USER_DATA='SET_USER_DATA';
+
+export const SET_GRAPH_DATA='SET_GRAPH_DATA';

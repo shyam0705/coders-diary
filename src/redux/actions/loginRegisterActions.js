@@ -1,6 +1,6 @@
 // import { auth, provider } from "../../firebase"
-import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_START, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS, SET_USER, SET_USER_DATA } from "./actionTypes"
-import { signOut,getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_START, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_FAILED, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS, SET_GRAPH_DATA, SET_USER, SET_USER_DATA } from "./actionTypes"
+import { signOut,getAuth, createUserWithEmailAndPassword,signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider,updateProfile} from "firebase/auth";
 //for registration
 import { initializeApp } from "firebase/app";
 
@@ -36,7 +36,14 @@ export const registerIntiate=(email,password,displayName)=>{
             .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            dispatch(registerSuccess(user));
+            updateProfile(user, {
+            displayName: displayName
+            }).then(() => {
+                dispatch(registerSuccess(user));
+            }).catch((error) => {
+               dispatch(registerFails(error.message));
+            });
+            
             // ...
         })
         .catch((error) => {
@@ -178,5 +185,12 @@ export const setUserData=(userData)=>{
     return{
         type:SET_USER_DATA,
         payload:userData
+    }
+}
+
+export const setGraphData=(graphData)=>{
+    return {
+        type:SET_GRAPH_DATA,
+        payload:graphData
     }
 }

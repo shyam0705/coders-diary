@@ -1,4 +1,4 @@
-import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_SUCCESS, SET_USER, SET_USER_DATA } from "../actions/actionTypes";
+import { GOOGLE_LOGIN_FAILED, GOOGLE_LOGIN_SUCCESS, LOGIN_FAILED, LOGIN_START, LOGIN_SUCCESS, LOGOUT_START, LOGOUT_SUCCESS, REGISTER_FAILED, REGISTER_START, REGISTER_SUCCESS, SET_USER, SET_USER_DATA,SET_GRAPH_DATA} from "../actions/actionTypes";
 
 const intialState={
     loading:false,
@@ -9,12 +9,14 @@ const intialState={
     gfg:"",
     codeforces:"",
     codechef:"",
-    collegeName:""
+    collegeName:"",
+    graphData:[]
 }
 
 export const userReducer=(state=intialState,action)=>{
     switch(action.type)
     {
+        case REGISTER_START:  
         case LOGIN_START:
             return {...state,loading:true}
         case GOOGLE_LOGIN_SUCCESS:
@@ -28,13 +30,15 @@ export const userReducer=(state=intialState,action)=>{
         case LOGOUT_START:
             return {...state,loading:true}
         case LOGOUT_SUCCESS:
-            return {loading:false,user:null,leetcode:null,error:null}  
+            return {loading:false,user:null,leetcode:null,error:null,graphData:[]}  
         case LOGIN_FAILED:
             return {...state,error:action.payload}  
         case SET_USER:
             return {...state,user:action.payload} 
         case SET_USER_DATA:
-            return {...state,codechef:action.payload.codechef,codeforces:action.payload.codeforces,leetcode:action.payload.leetcode,collegeName:action.payload.collegeName}                    
+            return {...state,codechef:action.payload.codechef,codeforces:action.payload.codeforces,leetcode:action.payload.leetcode,collegeName:action.payload.collegeName,gfg:action.payload.gfg}
+        case SET_GRAPH_DATA:
+            return {...state,graphData:action.payload}                        
         default:
             return state;
     }
