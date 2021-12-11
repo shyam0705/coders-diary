@@ -59,7 +59,8 @@ const App=()=>{
           codechef:"",
           codeforces:"",
           gfg:"",
-          collegeName:""
+          collegeName:"",
+          graphData:[]
         }
         dispatch(setUserData(userData));
       }

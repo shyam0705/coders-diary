@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setGraphData } from '../../redux/actions/loginRegisterActions';
 import Loader from 'react-loader-spinner';
+import Spinner from 'react-bootstrap/Spinner'
 export const PerformanceChart = () => {
     const state = useSelector(state => state.userReducer);
     const [isReady, setisReady] = useState(false);
@@ -133,7 +134,7 @@ export const PerformanceChart = () => {
     else{
         // console.log(state.graphData[0]);
         return(
-            <Loader/>
+            <Spinner animation="border" />
         )
     }
     
