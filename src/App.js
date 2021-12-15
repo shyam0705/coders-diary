@@ -9,6 +9,8 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getDatabase, ref, onValue,set} from "firebase/database";
 import PrivateRoute from './utils/PrivateRoute';
+import { SinglePage } from './components/diary/SinglePage';
+import { MainPage } from './components/diary/MainPage';
 const App=()=>{
   const dispatch = useDispatch();
   useEffect(() => {
@@ -75,6 +77,8 @@ const App=()=>{
              <Switch>
                 <Route exact path="/" component={Login}/>
                 <PrivateRoute path="/dashboard" component={DashBoard} exact/>
+                <Route path="/mainPage" component={MainPage} exact/>
+                <Route path='/:id' component={SinglePage} exact/>
               </Switch>
           </Router>
         </div>

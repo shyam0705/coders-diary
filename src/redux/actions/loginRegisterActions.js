@@ -26,7 +26,13 @@ const registerSuccess=(user)=>{
         payload:user
     }
 }
-
+export const changeDate = (selectedDate)=>{
+    console.log("here",selectedDate);
+    return{
+        type:"changeDate",
+        payload:selectedDate
+    }
+}
 //main intiator for registration
 export const registerIntiate=(email,password,displayName)=>{
     return function(dispatch){
@@ -185,12 +191,5 @@ export const setUserData=(userData)=>{
     return{
         type:SET_USER_DATA,
         payload:userData
-    }
-}
-
-export const setGraphData=(graphData)=>{
-    return {
-        type:SET_GRAPH_DATA,
-        payload:graphData
     }
 }

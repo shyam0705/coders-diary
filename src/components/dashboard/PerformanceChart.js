@@ -4,15 +4,12 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDatabase, ref, onValue} from "firebase/database";
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setGraphData } from '../../redux/actions/loginRegisterActions';
-import Loader from 'react-loader-spinner';
-import Spinner from 'react-bootstrap/Spinner'
+import { HeatmapLoading } from '../heatmap/HeatmapLoading';
 export const PerformanceChart = () => {
     const state = useSelector(state => state.userReducer);
-    const [isReady, setisReady] = useState(false);
-    const dispatch = useDispatch();
+    const [graphData, setgraphData] = useState([]);
     useEffect(() => {
+        setgraphData([]);
         const db = getDatabase();
         const totalUsersRef=ref(db,'users');
         var date=new Date();
@@ -77,24 +74,22 @@ export const PerformanceChart = () => {
                 console.log(totalUsers);
             }
             setTimeout(()=>{
-                console.log(totalSubmission);
-                console.log(totalUsers);
+                console.log("tmp is",tmp);
                 tmpGraphData.push([d,tmp[1],tmp[2]]);
                 if(i==29)
                 {
-                    dispatch(setGraphData(tmpGraphData));
+                    setgraphData(tmpGraphData);
                 }
             },5000)
             //console.log(tmp.length);
             date.setDate(date.getDate()-1);
         }
-        console.log(tmpGraphData);
-        setisReady(true);
-    }, [])
-    if(state.graphData.length===30 && state.graphData[0].length===3)
+        console.log("in use effect",tmpGraphData);
+    },[])
+    if(graphData.length===30 && graphData[0].length===3)
     {
-        // console.log(state.graphData);
-        const data=[['x','avg questions solved','question solved by you'],...state.graphData]
+        console.log(graphData);
+        const data=[['x','avg questions solved','question solved by you'],...graphData]
         // console.log("data to render is",data);
         return (
         
@@ -134,7 +129,7 @@ export const PerformanceChart = () => {
     else{
         // console.log(state.graphData[0]);
         return(
-            <Spinner animation="border" />
+            <HeatmapLoading/>
         )
     }
     

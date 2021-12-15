@@ -10,6 +10,7 @@ const intialState={
     codeforces:"",
     codechef:"",
     collegeName:"",
+    selectedDate:{day:1,month:1,year:2021},
     graphData:[]
 }
 
@@ -37,8 +38,9 @@ export const userReducer=(state=intialState,action)=>{
             return {...state,user:action.payload} 
         case SET_USER_DATA:
             return {...state,codechef:action.payload.codechef,codeforces:action.payload.codeforces,leetcode:action.payload.leetcode,collegeName:action.payload.collegeName,gfg:action.payload.gfg}
-        case SET_GRAPH_DATA:
-            return {...state,graphData:action.payload}                        
+        case "changeDate":
+            console.log("in reducer",action.payload);
+            return {...state,selectedDate:action.payload}                       
         default:
             return state;
     }
