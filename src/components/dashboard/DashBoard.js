@@ -11,13 +11,7 @@ import { NavBar } from "../NavBar";
 export const DashBoard = () => {
   const dispatch = useDispatch();
   
-  const handleLogout=()=>{
-    console.log("in handle logout");
-    dispatch(logoutIntiate());
-  }
-  const styling={
-    'background-color':'#e3f2fd'
-  }
+  
   return (
     <div align="center">
       <NavBar/>

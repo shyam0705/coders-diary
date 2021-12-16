@@ -4,17 +4,18 @@ import { useSelector } from 'react-redux';
 import { Login } from './components/userLogin/Login';
 import {Switch,BrowserRouter as Router,Route} from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { loginIntiate, loginStart, setUser, setUserData } from './redux/actions/loginRegisterActions';
+import { loginStart, setUser, setUserData } from './redux/actions/loginRegisterActions';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getDatabase, ref, onValue,set} from "firebase/database";
 import PrivateRoute from './utils/PrivateRoute';
 import { SinglePage } from './components/diary/SinglePage';
 import { MainPage } from './components/diary/MainPage';
-import { NavBar } from './components/NavBar';
 const App=()=>{
+
   const dispatch = useDispatch();
   useEffect(() => {
+    
     dispatch(loginStart());
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
