@@ -9,7 +9,7 @@ export const PerformanceChart = () => {
     const state = useSelector(state => state.userReducer);
     const [graphData, setgraphData] = useState([]);
     useEffect(() => {
-        setgraphData([]);
+        console.log(graphData.length);
         const db = getDatabase();
         const totalUsersRef=ref(db,'users');
         var date=new Date();
@@ -38,17 +38,17 @@ export const PerformanceChart = () => {
             //firebase logic
             const avgCountRef = ref(db, 'average/' + btoa(d));
             onValue(avgCountRef, (snapshot) => {
-                tmp.push(d);
+                tmp=[...tmp,d];
                 //console.log(tmp);
                 const data = snapshot.val();
                 if(data!=null)
                 {
                     // console.log(data.totalsubmission);
                     totalSubmission=data.totalSubmission;
-                    tmp.push(data.totalsubmission/totalUsers);
+                    tmp=[...tmp,data.totalsubmission/totalUsers];
                 }
                 else{
-                    tmp.push(0);
+                    tmp=[...tmp,0];
                     totalSubmission=0;
                 }
             // console.log(btoa(d)); 
@@ -63,7 +63,7 @@ export const PerformanceChart = () => {
                     userCount++;
                     // console.log(userCount);
                 })
-                tmp.push(userCount);
+                tmp=[...tmp,userCount];
                 
                     // setisReady(true);
             },{

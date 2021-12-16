@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Login } from './components/userLogin/Login';
 import {Switch,BrowserRouter as Router,Route} from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { setUser, setUserData } from './redux/actions/loginRegisterActions';
+import { loginIntiate, loginStart, setUser, setUserData } from './redux/actions/loginRegisterActions';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getDatabase, ref, onValue,set} from "firebase/database";
@@ -14,6 +14,7 @@ import { MainPage } from './components/diary/MainPage';
 const App=()=>{
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(loginStart());
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
       if (user!=null && user.uid) {
@@ -75,8 +76,8 @@ const App=()=>{
         <div className="App">
           <Router>
              <Switch>
-                <Route exact path="/" component={Login}/>
-                <PrivateRoute path="/dashboard" component={DashBoard} exact/>
+                <PrivateRoute exact path="/" component={DashBoard}/>
+                <Route path="/login" component={Login} exact/>
                 <Route path="/mainPage" component={MainPage} exact/>
                 <Route path='/:id' component={SinglePage} exact/>
               </Switch>

@@ -11,7 +11,7 @@ import {useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import Loader from 'react-loader-spinner';
+import { Loader } from '../Loader';
 export const Login = () => {
     const state = useSelector(state => state.userReducer);
     const history=useHistory();
@@ -19,7 +19,7 @@ export const Login = () => {
         if(state.user!=null)
         {
             console.log("in use effect");
-            history.push("/dashboard");
+            history.push("/");
         }
         
     }, [state.user]);

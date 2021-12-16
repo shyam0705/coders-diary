@@ -63,7 +63,7 @@ export const registerIntiate=(email,password,displayName)=>{
 
 
 //for login
-const loginStart=()=>{
+export const loginStart=()=>{
     return{
         type:LOGIN_START
     }

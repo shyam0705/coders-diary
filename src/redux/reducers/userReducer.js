@@ -33,9 +33,9 @@ export const userReducer=(state=intialState,action)=>{
         case LOGOUT_SUCCESS:
             return {loading:false,user:null,leetcode:null,error:null,graphData:[]}  
         case LOGIN_FAILED:
-            return {...state,error:action.payload}  
+            return {...state,error:action.payload,loading:false}  
         case SET_USER:
-            return {...state,user:action.payload} 
+            return {...state,user:action.payload,loading:false} 
         case SET_USER_DATA:
             return {...state,codechef:action.payload.codechef,codeforces:action.payload.codeforces,leetcode:action.payload.leetcode,collegeName:action.payload.collegeName,gfg:action.payload.gfg}
         case "changeDate":
