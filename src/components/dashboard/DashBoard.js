@@ -7,6 +7,7 @@ import { LeaderBoard } from "./LeaderBoard";
 import { PerformanceChart } from "./PerformanceChart";
 import { Heatmap } from '../heatmap/Heatmap.js';
 import { TotalSubmission } from "./TotalSubmission";
+import { NavBar } from "../NavBar";
 export const DashBoard = () => {
   const dispatch = useDispatch();
   
@@ -19,10 +20,7 @@ export const DashBoard = () => {
   }
   return (
     <div align="center">
-      <nav class="navbar navbar-light justify-content-between" style={styling}>
-        <a class="navbar-brand">Coder's Diary</a>
-          <button type="button" class="btn btn-outline-danger" onClick={()=>handleLogout()}>Logout</button>
-      </nav>
+      <NavBar/>
       <br/>
       <Container>
         <Row>

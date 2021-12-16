@@ -1,133 +1,203 @@
 import React from 'react'
-import Chart from "react-google-charts";
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getDatabase, ref, onValue} from "firebase/database";
 import { useState } from 'react';
 import { HeatmapLoading } from '../heatmap/HeatmapLoading';
+import {CanvasJSChart} from 'canvasjs-react-charts'
+
+
 export const PerformanceChart = () => {
+
     const state = useSelector(state => state.userReducer);
-    const [graphData, setgraphData] = useState([]);
+
+    const [data, setdata] = useState([]);
+    const [data2, setdata2] = useState([]);
+    var averageSubmission = [];
+    var userSubmissionData = [];
+
+    // const tempdata = [];
+function comp1(a,b){
+    if(a.label>b.label)
+    return -1;
+    else
+    return 1;
+}
     useEffect(() => {
-        console.log(graphData.length);
-        const db = getDatabase();
+        if(data.length === 0)
+        {
+            console.log("1st useeffect");
+            const db = getDatabase();
         const totalUsersRef=ref(db,'users');
         var date=new Date();
         let tmpGraphData=[];
         let totalUsers=0;
         let totalSubmission=0;
+        
+
+        //testing
         onValue(totalUsersRef,(snapshot)=>{
-            
-            // console.log(snapshot);
-            snapshot.forEach((child)=>{
-                totalUsers++;
-                // console.log("hii");
-            })
-            //totalUsers=snapshot.getChildrenCount();
-            // console.log(totalUsers);
-           
+            const data = snapshot.val();
+            totalUsers = Object.keys(data).length;
+            // console.log(Object.keys(data).length);
         }, {
             onlyOnce: true
         })
         console.log(totalUsers);
+        // find all the submission count done by user in previous 30 days.
+        
+
+        // average submission detail 
+        var d2 = new Date();
+        
+        for(let i2=0;i2<30;i2++)
+        {
+            let month1 = d2.getMonth()+1;
+            if(month1<10)
+            month1 = '0'+month1;
+            let date1 = d2.getDate();
+            if(date1<10)
+            date1 = '0'+date1;
+            let year1 = d2.getFullYear().toString();
+            const enc_date = btoa(month1+'/'+date1+'/'+year1);
+            const path = 'average/'+enc_date;
+            const ref2 = ref(db,path);
+            onValue(ref2,(snapshot)=>{
+                const data2 = snapshot.val();
+                if(data2 === null)
+                averageSubmission.push({label : month1+'/'+date1+'/'+year1.substr(2,3),y:1});
+                else
+                averageSubmission.push({label : month1+'/'+date1+'/'+year1.substr(2,3),y:Math.ceil(data2.totalsubmission/totalUsers)});
+            });
+            d2.setDate(d2.getDate()-1);
+        }
+        var d = new Date();
         for(let i=0;i<30;i++)
         {
-            const d=(date.getMonth()+1)+"/"+date.getDate()+
-            "/"+date.getFullYear();
-            let tmp=[];
-            //firebase logic
-            const avgCountRef = ref(db, 'average/' + btoa(d));
-            onValue(avgCountRef, (snapshot) => {
-                tmp=[...tmp,d];
-                //console.log(tmp);
-                const data = snapshot.val();
-                if(data!=null)
-                {
-                    // console.log(data.totalsubmission);
-                    totalSubmission=data.totalSubmission;
-                    tmp=[...tmp,data.totalsubmission/totalUsers];
-                }
-                else{
-                    tmp=[...tmp,0];
-                    totalSubmission=0;
-                }
-            // console.log(btoa(d)); 
+            let month = d.getMonth()+1;
+            if(month<10)
+            month = 0 + month;
+            let date = d.getDate();
+            if(date<10)
+            date = '0'+date;
+            let year = d.getFullYear().toString();
+            const enc_date = btoa(month+'/'+date+'/'+year);
+            const path = 'submission/'+state.user.uid+'/'+enc_date;
+            const ref1 = ref(db,path);
+            onValue(ref1,(snapshot)=>{
+                const data1 = snapshot.val();
+                if(data1 === null)
+                userSubmissionData.push({label:month+'/'+date+'/'+year.substr(2,3),y:0});
+                else
+                userSubmissionData.push({label:month+'/'+date+'/'+year.substr(2,3),y:Object.keys(data1).length});
             },{
-                onlyOnce: true
+                onlyOnce : true
             });
-            let userCount=0;
-            // console.log(btoa(d));
-            const userCountRef=ref(db,'submission/'+state.user.uid+'/'+btoa(d));
-            onValue(userCountRef,(snapshot)=>{
-                snapshot.forEach((child)=>{
-                    userCount++;
-                    // console.log(userCount);
-                })
-                tmp=[...tmp,userCount];
-                
-                    // setisReady(true);
-            },{
-                onlyOnce: true
-            })
-            if(i==0)
-            {
-                console.log(totalUsers);
-            }
-            setTimeout(()=>{
-                console.log("tmp is",tmp);
-                tmpGraphData.push([d,tmp[1],tmp[2]]);
-                if(i==29)
-                {
-                    setgraphData(tmpGraphData);
-                }
-            },5000)
-            //console.log(tmp.length);
-            date.setDate(date.getDate()-1);
+            d.setDate(d.getDate()-1);
         }
-        console.log("in use effect",tmpGraphData);
+
+        }
     },[])
-    if(graphData.length===30 && graphData[0].length===3)
-    {
-        console.log(graphData);
-        const data=[['x','avg questions solved','question solved by you'],...graphData]
-        // console.log("data to render is",data);
-        return (
+
+    useEffect(() => {
         
+        if(data.length === 0)
+        {
+            console.log("2nd useeffect");
+            if(averageSubmission.length != 30 || userSubmissionData.length != 30)
+        {
+            setTimeout(()=>{
+                if(averageSubmission.length != 30 || userSubmissionData.length != 30)
+                {
+                    setTimeout(()=>{
+                        if(averageSubmission.length != 30 || userSubmissionData.length != 30)
+                        {
+                            setTimeout(()=>{
+                                userSubmissionData.sort(comp1);
+                                averageSubmission.sort(comp1);
+                                setdata(userSubmissionData);
+                                setdata2(averageSubmission);
+                            },5000);
+                        }
+                        else
+                        {
+                            userSubmissionData.sort(comp1);
+                                averageSubmission.sort(comp1);
+                            setdata(userSubmissionData);
+                            setdata2(averageSubmission);
+                        }
+                    },1500);
+                }
+                else
+                {
+                    // setTimeout(()=>{
+                        // console.log(userSubmissionData);
+                        // console.log("----");
+                        // console.log(averageSubmission);
+                        userSubmissionData.sort(comp1);
+                                averageSubmission.sort(comp1);
+                        setdata(userSubmissionData);
+                        setdata2(averageSubmission);
+                    // },5000);
+                }
+            },1000);
+        }
+        }
+        // console.log(userSubmissionData);
+        // console.log(averageSubmission);
+
+    }, [])
+
+
+
+    // console.log(data);
+    if(data.length === 30 && data2.length == 30)
+    {
+        
+        const options = {
+            animationEnabled: true,
+            exportEnabled: true,
+            zoomEnabled: true, 
+            theme: "light2", // "light1", "dark1", "dark2"
+            title:{
+                text: "User vs Average submissions :"
+            },
+            axisY: {
+                title: "Number of submissions",
+                suffix: ""
+            },
+            axisX: {
+                title: "Date(MM/DD/YY)",
+                prefix: "",
+                interval: 2
+            },
+            data: [{
+                type: "line",
+                showInLegend: true, 
+                legendText: "User submissions",
+                toolTipContent: "Date {label}: {y}",
+                dataPoints: data
+            },
+            {
+                type: "line",
+                showInLegend: true, 
+                legendText: "Average submissions",
+                toolTipContent: "Date {label}: {y}",
+                dataPoints: data2
+            }
+        ]
+        }
+
+        // console.log(data3);
+        return (
             <div>
-                <Chart
-                // width={"400px"}
-                height={"400px"}
-                chartType="LineChart"
-                loader={<div>Comparision Chart</div>}
-                // data={[
-                //     ['x','avg questions solved','question solved by you'],
-                //     // [0, 0, 0],
-                //     // [1, 10, 5],
-                //     // [2, 23, 15],
-                //     // [3, 17, 9],
-                //     // [4, 18, 10],
-                //     // [5, 9, 5],
-                //     // [6, 11, 3],
-                //     // [7, 27, 19],
-                //     ...graphData
-                // ]}
-                data={data}
-                options={{
-                    hAxis: {
-                    title: 'date',
-                    },
-                    vAxis: {
-                    title: 'no of questions',
-                    }
-                }}
-                rootProps={{ 'data-testid': '2' }}
-                />
+                <CanvasJSChart options = {options}
+				/* onRef={ref => this.chart = ref} */
+			/>
             </div>
-       
         )
     }
     else{
-        // console.log(state.graphData[0]);
         return(
             <HeatmapLoading/>
         )

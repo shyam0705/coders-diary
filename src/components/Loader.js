@@ -1,4 +1,3 @@
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { Container } from "react-bootstrap";
 import { HeatmapLoading } from "./heatmap/HeatmapLoading";
 import React from "react";

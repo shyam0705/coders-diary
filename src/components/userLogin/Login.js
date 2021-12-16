@@ -41,7 +41,7 @@ export const Login = () => {
                 <div className={`login__welcome-back ${login ? 'login__welcome-back--active' : 'login__welcome-back--inactive'}`}>
                     <div className="login__welcome-back__logo-container">
                         <img className="login__welcome-back__logo-container--image" src={logo} alt="Budwriter" />
-                        Budwriter
+                        Coder's Diary
                     </div>
                     <div className="login__welcome-back__main-container">
                         <div className="login__welcome-back__main-container__text-container">
@@ -49,7 +49,7 @@ export const Login = () => {
                                 Welcome Back!
                             </span>
                             <span className="login__welcome-back__main-container__text-container--secondary">
-                                To keep sharing your work with us, please log in.
+                                To keep tracking your progress and revise questions, please log in.
                             </span>
                         </div>
                         <div onClick={() => {
@@ -122,7 +122,7 @@ export const Login = () => {
                 <div className={`login__login-container ${!login ? 'login__login-container--active' : 'login__login-container--inactive'}`}>
                     <div className="login__login-container__logo-container">
                         <img className="login__login-container__logo-container--image" src={logo} alt="Budwriter" />
-                        Budwriter
+                        Coder's Diary
                     </div>
                     <div className="login__login-container__main-container">
                         <div className="login__login-container__main-container__social-container">

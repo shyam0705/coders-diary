@@ -11,6 +11,7 @@ import { getDatabase, ref, onValue,set} from "firebase/database";
 import PrivateRoute from './utils/PrivateRoute';
 import { SinglePage } from './components/diary/SinglePage';
 import { MainPage } from './components/diary/MainPage';
+import { NavBar } from './components/NavBar';
 const App=()=>{
   const dispatch = useDispatch();
   useEffect(() => {

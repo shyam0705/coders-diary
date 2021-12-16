@@ -4,6 +4,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import { getDatabase, ref, query, orderByChild, onValue, orderByValue} from "firebase/database";
 import { useEffect,useState } from 'react';
 import { HeatmapLoading } from '../heatmap/HeatmapLoading';
+import { LeaderBoardLoading } from './LeaderBoardLoading';
 export const LeaderBoard = () => {
     const [leaderboardData, setleaderboardData] = useState(null);
     useEffect(() => {
@@ -79,7 +80,7 @@ export const LeaderBoard = () => {
             />
         </div>
         </>:
-        <HeatmapLoading/>
+        <LeaderBoardLoading/>
         }
         
         </>

@@ -10,6 +10,7 @@ import { Row,Col,Card,Button} from 'react-bootstrap';
 import './mainpage.css';
 import { SinglePage } from './SinglePage';
 import { Link } from 'react-router-dom';
+import { NavBar } from '../NavBar';
 export const MainPage = () => {
 
   const state = useSelector(state => state.userReducer);
@@ -42,7 +43,9 @@ export const MainPage = () => {
 
   }, [])
     return (
-      <Container>
+      <>
+        <NavBar/>
+        <Container>
         <Row className = "tmp">
           <Col className = "tmp1">
             <Carousel responsive={responsive}>
@@ -50,7 +53,9 @@ export const MainPage = () => {
             </Carousel>
           </Col>
         </Row>
-      </Container>
+        </Container>
+      </>
+      
    
       
     )
