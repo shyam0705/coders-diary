@@ -18,7 +18,7 @@ export const Login = () => {
     useEffect(() => {
         if(state.user!=null)
         {
-            console.log("in use effect");
+            
             history.push("/");
         }
         

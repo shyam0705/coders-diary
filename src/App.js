@@ -72,7 +72,6 @@ const App=()=>{
     });
   }, [dispatch])
   const state = useSelector(state => state.userReducer);
-  console.log(state);
   return (
    
         <div className="App">

@@ -26,7 +26,7 @@ export const LeaderBoard = () => {
                 data.rank=i;
                 i++;
             })
-            console.log(tmpData);
+        
             setleaderboardData(tmpData);
         })
     }, [])

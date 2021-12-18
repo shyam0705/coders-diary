@@ -27,15 +27,13 @@ export const MainPage = () => {
   })
   useEffect(() => {
     const db = getDatabase();
-    console.log(state.selectedDate);
-    console.log("path : ",'submission/',state.user.uid,'/',btoa(state.selectedDate.month+'/'+state.selectedDate.day+'/'+state.selectedDate.year));
     const todoRef = ref(db,'submission/'+state.user.uid+'/'+btoa(state.selectedDate.month+'/'+state.selectedDate.day+'/'+state.selectedDate.year));
     onValue(todoRef, (snapshot) => {
       const todos = snapshot.val();
       const todoList = [];
-      console.log(todos);
+      
       for (let id in todos) {
-        console.log(todos[id]);
+      
         todoList.push({ id, ...todos[id] });
       }
       setquestion(todoList);

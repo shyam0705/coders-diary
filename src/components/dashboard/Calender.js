@@ -12,7 +12,6 @@ export const Calender = () => {
     const dispatch = useDispatch();
     const history=useHistory();
     const change = (e)=>{
-        console.log(e);
         setSelectedDay(e);
         dispatch(changeDate(e));
         history.push("/mainPage");

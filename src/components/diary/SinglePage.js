@@ -13,8 +13,7 @@ export const SinglePage = (props) => {
         const db = getDatabase();
         const quesRef = ref(db,'submission/'+state.user.uid+'/'+btoa(state.selectedDate.month+'/'+state.selectedDate.day+'/'+state.selectedDate.year)+'/'+id);
         onValue(quesRef,(snapshot)=>{
-            console.log(snapshot.val());
-            console.log(snapshot.val().comment);
+         
             if(snapshot.val()!=null)
             {
                 setdescription(snapshot.val().comment);
@@ -29,7 +28,7 @@ export const SinglePage = (props) => {
             alert("update succesfull");
         } catch (error) {
             alert(error.message);
-            console.log(error)
+          
         }
         
     }

@@ -27,7 +27,7 @@ const registerSuccess=(user)=>{
     }
 }
 export const changeDate = (selectedDate)=>{
-    console.log("here",selectedDate);
+
     return{
         type:"changeDate",
         payload:selectedDate

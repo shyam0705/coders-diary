@@ -5,7 +5,7 @@ import { logoutIntiate } from '../redux/actions/loginRegisterActions';
 export const NavBar = () => {
     const dispatch = useDispatch();
     const handleLogout=()=>{
-        console.log("in handle logout");
+      
         dispatch(logoutIntiate());
       }
     const styling={

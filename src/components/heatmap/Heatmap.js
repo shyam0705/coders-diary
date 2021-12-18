@@ -10,7 +10,7 @@ export const Heatmap = () => {
     const [datelist, setdatelist] = useState([]);
     const tempdatelist = [];
     useEffect(() => {
-        console.log("here");
+     
         const db = getDatabase();
         const d=new Date();
         for(var i=0;i<365;i++)
@@ -22,7 +22,7 @@ export const Heatmap = () => {
             const dateref = ref(db,'submission'+'/'+state.user.uid+'/'+enc_date);
             onValue(dateref,(snapshot)=>{
                 const data = snapshot.val();
-                // console.log(data);
+              
                 if(data === null)
                 tempdatelist.push({date:currdate,count:0});
                 else
@@ -37,14 +37,14 @@ export const Heatmap = () => {
         if(datelist.length!=365)
         {
             setTimeout(()=>{
-                // console.log(tempdatelist)
+                
                 if(tempdatelist.length === 365)
                 setdatelist(tempdatelist);
                 else{
                     setTimeout(()=>{
                         if(tempdatelist.length === 365)
                         {
-                            // console.log("second timeout!!")
+                            
                             setdatelist(tempdatelist);
                         }
                         else
@@ -73,12 +73,12 @@ export const Heatmap = () => {
         // datelist.push({date:currdate,count:2})
         d.setDate(d.getDate()-1);
     }
-    // console.log(startdate,enddate);
+  
     // const t = datelist;
 
     return (
         <>
-        {console.log(datelist.length)}
+        
         {datelist.length==365 ?
             <CalendarHeatmap
             startDate={startdate}

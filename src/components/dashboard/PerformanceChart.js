@@ -26,8 +26,7 @@ function comp1(a,b){
     useEffect(() => {
         if(data.length === 0)
         {
-            console.log("1st useeffect");
-            const db = getDatabase();
+        const db = getDatabase();
         const totalUsersRef=ref(db,'users');
         var date=new Date();
         let tmpGraphData=[];
@@ -43,7 +42,6 @@ function comp1(a,b){
         }, {
             onlyOnce: true
         })
-        console.log(totalUsers);
         // find all the submission count done by user in previous 30 days.
         
 
@@ -103,7 +101,6 @@ function comp1(a,b){
         
         if(data.length === 0)
         {
-            console.log("2nd useeffect");
             if(averageSubmission.length != 30 || userSubmissionData.length != 30)
         {
             setTimeout(()=>{
