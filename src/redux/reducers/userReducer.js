@@ -39,7 +39,6 @@ export const userReducer=(state=intialState,action)=>{
         case SET_USER_DATA:
             return {...state,codechef:action.payload.codechef,codeforces:action.payload.codeforces,leetcode:action.payload.leetcode,collegeName:action.payload.collegeName,gfg:action.payload.gfg}
         case "changeDate":
-            
             return {...state,selectedDate:action.payload}                       
         default:
             return state;

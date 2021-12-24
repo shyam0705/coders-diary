@@ -13,12 +13,12 @@ $breakpoint-mobile: 768px;
 */
 .login {
   display: flex;
-  height: 98%;
-
+  height: 100%;
+  overflow: hidden;
   &__welcome-back {
     z-index: 2;
     transition: visibility 0.3s ease-in-out;
-    position: absolute;
+    position: fixed;
     transition: all 0.8s ease-in-out;
     width: 30%;
     font-family: "Quicksand-Bold";
@@ -106,7 +106,7 @@ $breakpoint-mobile: 768px;
   }
 
   &__create-container {
-    position: absolute;
+    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -228,7 +228,7 @@ $breakpoint-mobile: 768px;
   }
 
   &__login-container {
-    position: absolute;
+    position: fixed;
     transition: all 0.7s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -375,7 +375,7 @@ $breakpoint-mobile: 768px;
   &__hello-container {
     width: 30%;
     left: 70.5%;
-    position: absolute;
+    position: fixed;
     z-index: 2;
     transition: all 0.8s ease-in-out;
     display: flex;
@@ -397,7 +397,7 @@ $breakpoint-mobile: 768px;
   }
 
   &__colored-container {
-    position: absolute;
+    position: fixed;
     background-color: $base-color;
     width: 30%;
     height: 100vh;

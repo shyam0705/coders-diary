@@ -36,7 +36,7 @@ export const Login = () => {
     })
     return (
         state.loading?<Loader/>:
-        <div className="login">
+        <div className="login" id="loginId">
                 <div className={`login__colored-container ${login ? 'login__colored-container--left' : 'login__colored-container--right'}`}></div>
                 <div className={`login__welcome-back ${login ? 'login__welcome-back--active' : 'login__welcome-back--inactive'}`}>
                     <div className="login__welcome-back__logo-container">
@@ -87,17 +87,19 @@ export const Login = () => {
                                 required />
                             <input
                                 className="login__create-container__form-container__form--email"
-                                // className="login__login-container__main-container__form-container__form--email"
+                                //className="login__login-container__main-container__form-container__form--email"
                                 type="email"
                                 placeholder="Email"
                                 value={signUpForm.email}
-                                onChange={(value) => setsignUpForm({
-                                    
+                                onChange={(value) =>{
+                                    // value.stopPropagation();
+                                    // value.preventDefault();
+                                    setsignUpForm({
                                     email: value.target.value,
                                     name: signUpForm.name,
                                     password: signUpForm.password
                                     
-                                })}
+                                })}}
                                 required />
                             <input
                                 className="login__create-container__form-container__form--password"

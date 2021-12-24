@@ -75,4 +75,6 @@ To run this project, you will need to add your firebase config of databse like t
 
 ## Authors
 
-- [@Shyam Patel](https://github.com/shyam0705/InterviewMate)
+- [@Shyam Patel](https://github.com/shyam0705)
+
+- [@Rahul Ranjan](https://github.com/codingkick)
