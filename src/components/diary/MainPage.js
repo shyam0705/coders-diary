@@ -103,11 +103,13 @@ const MyCard=({queid,quename,queurl,comment,platform})=>{
         <Card.Header>{platform}</Card.Header>
         <Card.Body>
           <Card.Title>{quename}</Card.Title>
-          <Card.Text style={{height:"270px",overflowY:"hidden"}}>
+          <Card.Text style={{height:"270px",overflowY:"auto"}}>
             {comment}
           </Card.Text>
             <ButtonGroup  style={{position:"absolute",bottom:2,right:1}}>
-              <Button style={{borderRadius:"4px"}}variant="info" rounded><i class="fas fa-link"></i>Open Question</Button>
+              <Button onClick={()=>{
+                window.open(queurl);
+              }} style={{borderRadius:"4px"}}variant="info" rounded><i class="fas fa-link"></i>Open Question</Button>
               <Link to={`/${queid}`}>
                 <Button style={{marginLeft:"4px"}} variant="danger" rounded><i class="fas fa-edit"></i>Update Notes</Button>
               </Link> 
@@ -118,7 +120,7 @@ const MyCard=({queid,quename,queurl,comment,platform})=>{
     <BackSide>
         <div className="paper">
             <div className="paper-content">
-                <p autofocus style={{overflowY:"hidden"}}>{comment}</p>
+                <p autofocus style={{overflowY:"auto"}}>{comment}</p>
             </div>
         </div>
     </BackSide>

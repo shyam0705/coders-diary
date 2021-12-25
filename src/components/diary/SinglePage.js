@@ -43,8 +43,8 @@ export const SinglePage = (props) => {
             </div>
         </div>
         <Row>
-            <Col md={{span:1,offset:10}}>
-                <Button variant="danger" onClick={handleUpdate}>Update</Button>
+            <Col md={{span:2,offset:10}}>
+                <Button variant="danger" onClick={handleUpdate}><i class="fas fa-edit"></i>Update</Button>
             </Col>
         </Row>
         
