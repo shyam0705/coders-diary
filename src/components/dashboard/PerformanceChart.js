@@ -63,9 +63,9 @@ function comp1(a,b){
             onValue(ref2,(snapshot)=>{
                 const data2 = snapshot.val();
                 if(data2 === null)
-                averageSubmission.push({label : month1+'/'+date1+'/'+year1.substr(2,3),y:1});
+                averageSubmission.push({label : (year1+'/'+month1+'/'+date1).substr(2,8),y:1});
                 else
-                averageSubmission.push({label : month1+'/'+date1+'/'+year1.substr(2,3),y:Math.ceil(data2.totalsubmission/totalUsers)});
+                averageSubmission.push({label : (year1+'/'+month1+'/'+date1).substr(2,8),y:Math.ceil(data2.totalsubmission/totalUsers)});
             });
             d2.setDate(d2.getDate()-1);
         }
@@ -74,7 +74,7 @@ function comp1(a,b){
         {
             let month = d.getMonth()+1;
             if(month<10)
-            month = 0 + month;
+            month = '0' + month;
             let date = d.getDate();
             if(date<10)
             date = '0'+date;
@@ -85,9 +85,9 @@ function comp1(a,b){
             onValue(ref1,(snapshot)=>{
                 const data1 = snapshot.val();
                 if(data1 === null)
-                userSubmissionData.push({label:month+'/'+date+'/'+year.substr(2,3),y:0});
+                userSubmissionData.push({label:(year+'/'+month+'/'+date).substr(2,8),y:0});
                 else
-                userSubmissionData.push({label:month+'/'+date+'/'+year.substr(2,3),y:Object.keys(data1).length});
+                userSubmissionData.push({label:(year+'/'+month+'/'+date).substr(2,8),y:Object.keys(data1).length});
             },{
                 onlyOnce : true
             });
@@ -164,7 +164,7 @@ function comp1(a,b){
                 suffix: ""
             },
             axisX: {
-                title: "Date(MM/DD/YY)",
+                title: "Date(YY/MM/DD)",
                 prefix: "",
                 interval: 2
             },

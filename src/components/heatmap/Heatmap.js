@@ -15,9 +15,17 @@ export const Heatmap = () => {
         const d=new Date();
         for(var i=0;i<365;i++)
         {
-            const month = d.getMonth()+1;
-            const currdate = d.getFullYear()+'-'+month+'-'+d.getDate();
-            const currdate2 = month+'/'+d.getDate()+'/'+d.getFullYear();
+            // const month = d.getMonth()+1;
+            // const currdate = d.getFullYear()+'-'+month+'-'+d.getDate();
+            // const currdate2 = month+'/'+d.getDate()+'/'+d.getFullYear();
+            let month = d.getMonth()+1;
+            if(month<10)
+            month = '0'+month;
+            let date = d.getDate();
+            if(date<10)
+            date = '0'+date;
+            const currdate = d.getFullYear()+'-'+month+'-'+date;
+            const currdate2 = month+'/'+date+'/'+d.getFullYear();
             const enc_date = btoa(currdate2);
             const dateref = ref(db,'submission'+'/'+state.user.uid+'/'+enc_date);
             onValue(dateref,(snapshot)=>{

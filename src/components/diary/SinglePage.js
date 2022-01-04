@@ -11,7 +11,13 @@ export const SinglePage = (props) => {
     const [description, setdescription] = useState("");
     useEffect(() => {
         const db = getDatabase();
-        const quesRef = ref(db,'submission/'+state.user.uid+'/'+btoa(state.selectedDate.month+'/'+state.selectedDate.day+'/'+state.selectedDate.year)+'/'+id);
+        let month = state.selectedDate.month;
+        let date = state.selectedDate.day;
+        if(month<10)
+            month = '0'+month;
+        if(date<10)
+            date = '0'+date;
+        const quesRef = ref(db,'submission/'+state.user.uid+'/'+btoa(month+'/'+date+'/'+state.selectedDate.year)+'/'+id);
         onValue(quesRef,(snapshot)=>{
          
             if(snapshot.val()!=null)
@@ -22,7 +28,13 @@ export const SinglePage = (props) => {
     }, [])
     const handleUpdate=async ()=>{
         const db = getDatabase();
-        const quesRef = ref(db,'submission/'+state.user.uid+'/'+btoa(state.selectedDate.month+'/'+state.selectedDate.day+'/'+state.selectedDate.year)+'/'+id+'/comment');
+        let month = state.selectedDate.month;
+        let date = state.selectedDate.day;
+        if(month<10)
+            month = '0'+month;
+        if(date<10)
+            date = '0'+date;
+        const quesRef = ref(db,'submission/'+state.user.uid+'/'+btoa(month+'/'+date+'/'+state.selectedDate.year)+'/'+id+'/comment');
         try {
             await set(quesRef,description);
             alert("update succesfull");
