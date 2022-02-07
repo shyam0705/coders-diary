@@ -1,4 +1,4 @@
-# Coder's Diray
+# Coder's Diary
 
 Using coder's diary you can have all questions solved by you on diffrent platform at one place.Write notes for questions.Track your your progress using heat map and compete with other using leaderboard.
 
